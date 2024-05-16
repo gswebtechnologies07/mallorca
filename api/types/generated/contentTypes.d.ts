@@ -362,6 +362,41 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryManagementCategoryManagement
+  extends Schema.CollectionType {
+  collectionName: 'category_managements';
+  info: {
+    singularName: 'category-management';
+    pluralName: 'category-managements';
+    displayName: 'Category Management';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Category_Name: Attribute.String;
+    Category_Type: Attribute.Enumeration<
+      ['Apartment', 'Attraction', 'Hotel', 'Tour']
+    >;
+    Category_Status: Attribute.Enumeration<['Active', 'Inactive']>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category-management.category-management',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category-management.category-management',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -798,6 +833,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::category-management.category-management': ApiCategoryManagementCategoryManagement;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
