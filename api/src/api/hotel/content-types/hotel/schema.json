@@ -1,0 +1,170 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hotels",
+  "info": {
+    "singularName": "hotel",
+    "pluralName": "hotels",
+    "displayName": "Hotel",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "richtext"
+    },
+    "Short_Description": {
+      "type": "text"
+    },
+    "Is_Featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "Status": {
+      "type": "enumeration",
+      "enum": [
+        "Publish",
+        "Draft",
+        "Pending"
+      ]
+    },
+    "Hotel_Star": {
+      "type": "enumeration",
+      "enum": [
+        "Star1",
+        "Star2",
+        "Star3",
+        "Star4",
+        "Star5"
+      ]
+    },
+    "Property_Type": {
+      "type": "customField",
+      "options": [
+        "Lodges",
+        "Resorts",
+        "Motels",
+        "Villas",
+        "Homestays",
+        "Hotels"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "Booking_Form": {
+      "type": "customField",
+      "options": [
+        "Instant & Enquiry",
+        "Enquiry",
+        "Instant"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "Real_Address": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "What_is_Nearby": {
+      "type": "string"
+    },
+    "Closest_Airports": {
+      "type": "string"
+    },
+    "Extra_Services": {
+      "type": "string"
+    },
+    "Base_Price": {
+      "type": "integer"
+    },
+    "Enable_External_Booking": {
+      "type": "boolean"
+    },
+    "Check_in_Time": {
+      "type": "time"
+    },
+    "Check_out_time": {
+      "type": "time"
+    },
+    "Min_Day_Before_Booking": {
+      "type": "integer"
+    },
+    "Min_Day_Stays": {
+      "type": "integer"
+    },
+    "Hotel_Facilities": {
+      "type": "customField",
+      "options": [
+        "Parking",
+        "Internet & Wi-Fi",
+        "Television",
+        "Fitness Center",
+        "Heater",
+        "Airport Transport",
+        "Air Conditioning",
+        ""
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "Hotel_Services": {
+      "type": "customField",
+      "options": [
+        "Massages",
+        "Ironing Services",
+        "Flower Arrangement",
+        "Excursions And Guided Tours",
+        "Dry Cleaning",
+        "Doctor On Call",
+        "Courier Services",
+        "Catering Services",
+        "Car Rental Services"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "FAQs": {
+      "type": "blocks"
+    },
+    "Hotel_Logo": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "Featured_Image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "Gallery": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "Video_Link": {
+      "type": "text"
+    },
+    "Policies": {
+      "type": "text"
+    },
+    "Enable_Cancellation": {
+      "type": "boolean"
+    }
+  }
+}
