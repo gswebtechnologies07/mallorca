@@ -4,7 +4,8 @@
   "info": {
     "singularName": "category-management",
     "pluralName": "category-managements",
-    "displayName": "Category Management"
+    "displayName": "Category Management",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -29,6 +30,12 @@
         "Active",
         "Inactive"
       ]
+    },
+    "hotel": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::hotel.hotel",
+      "inversedBy": "category_managements"
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attractionss",
+  "info": {
+    "singularName": "attractions",
+    "pluralName": "attractionss",
+    "displayName": "Attractions "
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    }
+  }
+}

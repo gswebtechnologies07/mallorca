@@ -128,34 +128,37 @@
       "type": "blocks"
     },
     "Hotel_Logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "Featured_Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "Gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "Video_Link": {
       "type": "text"
@@ -165,6 +168,12 @@
     },
     "Enable_Cancellation": {
       "type": "boolean"
+    },
+    "category_managements": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::category-management.category-management",
+      "mappedBy": "hotel"
     }
   }
 }
