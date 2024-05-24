@@ -362,6 +362,42 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryManagementCategoryManagement
+  extends Schema.CollectionType {
+  collectionName: 'category_managements';
+  info: {
+    singularName: 'category-management';
+    pluralName: 'category-managements';
+    displayName: 'Category Management';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Category_Name: Attribute.String;
+    Category_Type: Attribute.Enumeration<
+      ['Apartment', 'Attraction', 'Hotel', 'Tour']
+    >;
+    Category_Status: Attribute.Enumeration<['Active', 'Inactive']>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category-management.category-management',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category-management.category-management',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -828,177 +864,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiAttractionsAttractions extends Schema.CollectionType {
-  collectionName: 'attractionss';
-  info: {
-    singularName: 'attractions';
-    pluralName: 'attractionss';
-    displayName: 'Attractions ';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Title: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::attractions.attractions',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::attractions.attractions',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCategoryManagementCategoryManagement
-  extends Schema.CollectionType {
-  collectionName: 'category_managements';
-  info: {
-    singularName: 'category-management';
-    pluralName: 'category-managements';
-    displayName: 'Category Management';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Category_Name: Attribute.String;
-    Category_Type: Attribute.Enumeration<
-      ['Apartment', 'Attraction', 'Hotel', 'Tour']
-    >;
-    Category_Status: Attribute.Enumeration<['Active', 'Inactive']>;
-    hotel: Attribute.Relation<
-      'api::category-management.category-management',
-      'manyToOne',
-      'api::hotel.hotel'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category-management.category-management',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category-management.category-management',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiHotelHotel extends Schema.CollectionType {
-  collectionName: 'hotels';
-  info: {
-    singularName: 'hotel';
-    pluralName: 'hotels';
-    displayName: 'Hotel';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Title: Attribute.String;
-    Content: Attribute.RichText;
-    Short_Description: Attribute.Text;
-    Is_Featured: Attribute.Boolean & Attribute.DefaultTo<false>;
-    Status: Attribute.Enumeration<['Publish', 'Draft', 'Pending']>;
-    Hotel_Star: Attribute.Enumeration<
-      ['Star1', 'Star2', 'Star3', 'Star4', 'Star5']
-    >;
-    Property_Type: Attribute.JSON &
-      Attribute.CustomField<
-        'plugin::multi-select.multi-select',
-        ['Lodges', 'Resorts', 'Motels', 'Villas', 'Homestays', 'Hotels']
-      >;
-    Booking_Form: Attribute.JSON &
-      Attribute.CustomField<
-        'plugin::multi-select.multi-select',
-        ['Instant & Enquiry', 'Enquiry', 'Instant']
-      >;
-    Real_Address: Attribute.JSON &
-      Attribute.CustomField<'plugin::google-maps.location-picker'>;
-    What_is_Nearby: Attribute.String;
-    Closest_Airports: Attribute.String;
-    Extra_Services: Attribute.String;
-    Base_Price: Attribute.Integer;
-    Enable_External_Booking: Attribute.Boolean;
-    Check_in_Time: Attribute.Time;
-    Check_out_time: Attribute.Time;
-    Min_Day_Before_Booking: Attribute.Integer;
-    Min_Day_Stays: Attribute.Integer;
-    Hotel_Facilities: Attribute.JSON &
-      Attribute.CustomField<
-        'plugin::multi-select.multi-select',
-        [
-          'Parking',
-          'Internet & Wi-Fi',
-          'Television',
-          'Fitness Center',
-          'Heater',
-          'Airport Transport',
-          'Air Conditioning',
-          ''
-        ]
-      >;
-    Hotel_Services: Attribute.JSON &
-      Attribute.CustomField<
-        'plugin::multi-select.multi-select',
-        [
-          'Massages',
-          'Ironing Services',
-          'Flower Arrangement',
-          'Excursions And Guided Tours',
-          'Dry Cleaning',
-          'Doctor On Call',
-          'Courier Services',
-          'Catering Services',
-          'Car Rental Services'
-        ]
-      >;
-    FAQs: Attribute.Blocks;
-    Hotel_Logo: Attribute.Media;
-    Featured_Image: Attribute.Media;
-    Gallery: Attribute.Media;
-    Video_Link: Attribute.Text;
-    Policies: Attribute.Text;
-    Enable_Cancellation: Attribute.Boolean;
-    category_managements: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToMany',
-      'api::category-management.category-management'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::hotel.hotel',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1009,6 +874,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::category-management.category-management': ApiCategoryManagementCategoryManagement;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -1018,9 +884,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::attractions.attractions': ApiAttractionsAttractions;
-      'api::category-management.category-management': ApiCategoryManagementCategoryManagement;
-      'api::hotel.hotel': ApiHotelHotel;
     }
   }
 }

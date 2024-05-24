@@ -30,12 +30,6 @@
         "Active",
         "Inactive"
       ]
-    },
-    "hotel": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::hotel.hotel",
-      "inversedBy": "category_managements"
     }
   }
 }
