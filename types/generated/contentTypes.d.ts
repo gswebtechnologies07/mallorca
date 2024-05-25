@@ -362,6 +362,92 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiAttractionAttraction extends Schema.CollectionType {
+  collectionName: 'attractions';
+  info: {
+    singularName: 'attraction';
+    pluralName: 'attractions';
+    displayName: 'Attraction';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Select_Category: Attribute.Enumeration<
+      ['Sightseeing features', 'Tours $ Adventure', 'Food and Drink']
+    >;
+    Title: Attribute.String;
+    Parmalink: Attribute.String;
+    Content: Attribute.RichText;
+    Is_Featured: Attribute.Boolean & Attribute.DefaultTo<true>;
+    Status: Attribute.Enumeration<['Publish', 'Draft', 'Pending']>;
+    Type: Attribute.Enumeration<
+      [
+        'Top 10',
+        'Caf\u00E9',
+        'Office',
+        'Recording',
+        'Studio',
+        'Yoga Studio',
+        'Warehouse',
+        'Villa'
+      ]
+    >;
+    Booking_Form: Attribute.Enumeration<
+      ['Instant', 'Enquiry', 'Instant & Enquiry']
+    >;
+    Base_Price: Attribute.Decimal;
+    Booking_Type: Attribute.Enumeration<['Per Day', 'Per Hour']>;
+    Extra_Services: Attribute.String;
+    Enable_External_Booking: Attribute.Boolean & Attribute.DefaultTo<false>;
+    Number_Of_Bedrooms: Attribute.String;
+    Number_of_Guest: Attribute.String;
+    Number_Of_Bathrooms: Attribute.String;
+    Size_meter_feet: Attribute.Decimal;
+    Spece_Amenities: Attribute.JSON &
+      Attribute.CustomField<
+        'plugin::multi-select.multi-select',
+        [
+          'Bed',
+          'Hair Dryer',
+          'Iron',
+          'Tea/Coffee',
+          'Adapters',
+          'Mobile & USB',
+          'DVD Player',
+          'Television',
+          'Table',
+          'Telephone',
+          'WiFi'
+        ]
+      >;
+    Featured_Image: Attribute.Media;
+    Gallery: Attribute.Media;
+    Video_Link: Attribute.String;
+    Enable_Cancellation: Attribute.Boolean & Attribute.DefaultTo<false>;
+    Real_Address: Attribute.JSON &
+      Attribute.CustomField<'plugin::google-maps.location-picker'>;
+    slug: Attribute.UID<'api::attraction.attraction', 'Title'>;
+    Short_Description: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::attraction.attraction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::attraction.attraction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCategoryManagementCategoryManagement
   extends Schema.CollectionType {
   collectionName: 'category_managements';
@@ -874,6 +960,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::attraction.attraction': ApiAttractionAttraction;
       'api::category-management.category-management': ApiCategoryManagementCategoryManagement;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;

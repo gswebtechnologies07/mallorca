@@ -573,7 +573,7 @@
     intl-messageformat "10.3.4"
     tslib "^2.4.0"
 
-"@googlemaps/js-api-loader@1.16.2":
+"@googlemaps/js-api-loader@^1.15.1", "@googlemaps/js-api-loader@1.16.2":
   version "1.16.2"
   resolved "https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.16.2.tgz"
   integrity sha512-psGw5u0QM6humao48Hn4lrChOM2/rA43ZCm3tKK9qQsEj1/VzqkCqnvGfEOshDbBQflydfaRovbKwZMF4AyqbA==
@@ -8564,6 +8564,13 @@ statuses@2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/statuses/-/statuses-2.0.1.tgz"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
+
+strapi-location-field-plugin@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.npmjs.org/strapi-location-field-plugin/-/strapi-location-field-plugin-1.2.3.tgz"
+  integrity sha512-Eq5Llf2ZGUa+jETRr10Pvg+865uORe4kyw4tCyVf/8AACZD3NkqJ0Sgm5ue58fbCsNOXGXYhI07gYkawYdDNsw==
+  dependencies:
+    "@googlemaps/js-api-loader" "^1.15.1"
 
 strapi-plugin-multi-select@^1.2.3:
   version "1.2.3"

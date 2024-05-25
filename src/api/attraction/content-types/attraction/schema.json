@@ -1,0 +1,152 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attractions",
+  "info": {
+    "singularName": "attraction",
+    "pluralName": "attractions",
+    "displayName": "Attraction",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Select_Category": {
+      "type": "enumeration",
+      "enum": [
+        "Sightseeing features",
+        "Tours $ Adventure",
+        "Food and Drink"
+      ]
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Parmalink": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "richtext"
+    },
+    "Is_Featured": {
+      "type": "boolean",
+      "default": true
+    },
+    "Status": {
+      "type": "enumeration",
+      "enum": [
+        "Publish",
+        "Draft",
+        "Pending"
+      ]
+    },
+    "Type": {
+      "type": "enumeration",
+      "enum": [
+        "Top 10",
+        "Café",
+        "Office",
+        "Recording",
+        "Studio",
+        "Yoga Studio",
+        "Warehouse",
+        "Villa"
+      ]
+    },
+    "Booking_Form": {
+      "type": "enumeration",
+      "enum": [
+        "Instant",
+        "Enquiry",
+        "Instant & Enquiry"
+      ]
+    },
+    "Base_Price": {
+      "type": "decimal"
+    },
+    "Booking_Type": {
+      "type": "enumeration",
+      "enum": [
+        "Per Day",
+        "Per Hour"
+      ]
+    },
+    "Extra_Services": {
+      "type": "string"
+    },
+    "Enable_External_Booking": {
+      "type": "boolean",
+      "default": false
+    },
+    "Number_Of_Bedrooms": {
+      "type": "string"
+    },
+    "Number_of_Guest": {
+      "type": "string"
+    },
+    "Number_Of_Bathrooms": {
+      "type": "string"
+    },
+    "Size_meter_feet": {
+      "type": "decimal"
+    },
+    "Spece_Amenities": {
+      "type": "customField",
+      "options": [
+        "Bed",
+        "Hair Dryer",
+        "Iron",
+        "Tea/Coffee",
+        "Adapters",
+        "Mobile & USB",
+        "DVD Player",
+        "Television",
+        "Table",
+        "Telephone",
+        "WiFi"
+      ],
+      "customField": "plugin::multi-select.multi-select"
+    },
+    "Featured_Image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Video_Link": {
+      "type": "string"
+    },
+    "Enable_Cancellation": {
+      "type": "boolean",
+      "default": false
+    },
+    "Real_Address": {
+      "type": "customField",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Title"
+    },
+    "Short_Description": {
+      "type": "string"
+    }
+  }
+}
