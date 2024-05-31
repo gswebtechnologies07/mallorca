@@ -74,7 +74,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
 
     try {
       const geoResponse = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=YOUR_GOOGLE_MAPS_API_KEY`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyBeSYHJyh5OmxQ_x4O7t_nQjDA7M9h5HmI`
       );
 
       if (geoResponse.data && geoResponse.data.results.length > 0) {
