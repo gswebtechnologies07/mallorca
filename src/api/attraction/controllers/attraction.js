@@ -62,9 +62,6 @@
 //     }
 //   }
 // }));
-
-'use strict';
-
 const { createCoreController } = require('@strapi/strapi').factories;
 const axios = require('axios');
 
@@ -72,14 +69,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
   async search(ctx) {
     const { location, radius, numberOfGuests } = ctx.request.body;
 
-    if (!location || !radius || !numberOfGuests) {
-      ctx.status = 400; // Bad Request
-      ctx.body = { error: 'Missing required parameters' };
-      return;
-    }
-
     try {
-      // Geocoding the input location
       const geoResponse = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyBeSYHJyh5OmxQ_x4O7t_nQjDA7M9h5HmI`
       );
@@ -87,32 +77,31 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
       if (geoResponse.data && geoResponse.data.results.length > 0) {
         const { lat, lng } = geoResponse.data.results[0].geometry.location;
         const radiusInMeters = radius * 1000;
+
+        // Use Strapi's database connection
         const knex = strapi.db.connection;
 
-        // Ensure the correct table name is used and use PostGIS functions for spatial queries
         const attractions = await knex('attractions')
           .select('*')
           .whereRaw(
-            `ST_Distance_Sphere(
-              ST_MakePoint(?, ?),
-              ST_MakePoint((Real_Address->>'coordinates'->>'lng')::float8, (Real_Address->>'coordinates'->>'lat')::float8)
-            ) <= ?`,
+            `ST_DWithin(
+              ST_MakePoint(?, ?)::geography,
+              ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng'), JSON_EXTRACT(Real_Address, '$.coordinates.lat'))::geography,
+              ?
+            )`,
             [lng, lat, radiusInMeters]
           )
           .andWhere('Number_of_Guest', numberOfGuests);
 
-        if (attractions.length > 0) {
-          ctx.body = attractions;
-        } else {
-          ctx.body = { error: 'No attractions found' };
-        }
+        ctx.body = attractions;
       } else {
         ctx.body = { error: 'Invalid location' };
       }
     } catch (error) {
       console.error('Error:', error);
-      ctx.status = 500; // Internal Server Error
-      ctx.body = { error: error.message || 'Internal Server Error' };
+      ctx.body = { error: error };
     }
   }
 }));
+
+
