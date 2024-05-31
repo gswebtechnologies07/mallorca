@@ -89,16 +89,13 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         const radiusInMeters = radius * 1000;
         const knex = strapi.db.connection;
 
-        // Ensure the correct table name is used and extract coordinates from JSON field
+        // Ensure the correct table name is used and use PostGIS functions for spatial queries
         const attractions = await knex('attractions')
           .select('*')
           .whereRaw(
             `ST_Distance_Sphere(
-              ST_MakePoint(
-                (Real_Address->'coordinates'->>'lng')::float8,
-                (Real_Address->'coordinates'->>'lat')::float8
-              ),
-              ST_MakePoint(?, ?)
+              ST_MakePoint(?, ?),
+              ST_MakePoint((Real_Address->>'coordinates'->>'lng')::float8, (Real_Address->>'coordinates'->>'lat')::float8)
             ) <= ?`,
             [lng, lat, radiusInMeters]
           )
