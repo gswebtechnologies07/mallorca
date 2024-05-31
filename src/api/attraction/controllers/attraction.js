@@ -63,6 +63,7 @@
 //   }
 // }));
 'use strict';
+
 const { createCoreController } = require('@strapi/strapi').factories;
 const axios = require('axios');
 
@@ -94,15 +95,15 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
           )
           .andWhere('Number_of_Guest', numberOfGuests);
 
-        ctx.body = attractions;
+        ctx.body = { data: attractions };
       } else {
+        ctx.status = 400;
         ctx.body = { error: 'Invalid location' };
       }
     } catch (error) {
       console.error('Error:', error);
+      ctx.status = 500;
       ctx.body = { error: error };
     }
   }
 }));
-
-
