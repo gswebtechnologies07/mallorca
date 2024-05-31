@@ -58,7 +58,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
       }
     } catch (error) {
       console.error('Error:', error);
-      ctx.body = { error: 'Server error' };
+      ctx.body = { error: error };
     }
   }
 }));
