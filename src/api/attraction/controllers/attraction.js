@@ -52,16 +52,17 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         //   )
         //   .andWhere('Number_of_Guest', numberOfGuests);
         const attractions = await knex('attractions')
-        .select('*')
-        .whereRaw(
-          `ST_DWithin(
-            ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::double precision, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::double precision),
-            ST_MakePoint(?, ?)::geography, // Explicit type cast to geography
-            (? * 0.000621371192)::double precision // Explicit type cast to double precision
-          )`,
-          [lng, lat, radiusInMeters]
-        )
-        .andWhere('Number_of_Guest', numberOfGuests);
+          .select('*')
+          .whereRaw(
+            `ST_DWithin(
+              ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::double precision, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::double precision),
+              ST_MakePoint(?, ?)::geography,
+              (? / 1000)::double precision
+            )`,
+            [lng, lat, radiusInMeters]
+          )
+          .andWhere('Number_of_Guest', numberOfGuests);
+
       
           ctx.body = attractions;
         } else {
