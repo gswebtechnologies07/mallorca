@@ -101,7 +101,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
 
         console.log('SQL Query:', query);
 
-        const attractions = await knex('attraction_attractions')
+        const attractions = await knex('attractions')
           .select('*')
           .whereRaw(
             `ST_Distance_Sphere(ST_MakePoint((Real_Address::json->>'coordinates'->>'lng')::float, (Real_Address::json->>'coordinates'->>'lat')::float), ST_MakePoint(?, ?)) <= ?`,
