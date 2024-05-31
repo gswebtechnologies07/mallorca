@@ -62,6 +62,7 @@
 //     }
 //   }
 // }));
+'use strict';
 const { createCoreController } = require('@strapi/strapi').factories;
 const axios = require('axios');
 
