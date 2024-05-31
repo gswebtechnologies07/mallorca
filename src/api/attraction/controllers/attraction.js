@@ -79,40 +79,38 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
     }
 
     try {
+      // Geocoding the input location
       const geoResponse = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=AIzaSyBeSYHJyh5OmxQ_x4O7t_nQjDA7M9h5HmI`
       );
 
-      console.log('Geocoding API Response:', geoResponse.data);
-
       if (geoResponse.data && geoResponse.data.results.length > 0) {
         const { lat, lng } = geoResponse.data.results[0].geometry.location;
-        const radiusInMeters = radius * 1000;
+
+        // Fetch all attractions
         const knex = strapi.db.connection;
+        const attractions = await knex('api_attraction_attractions').select('*').where('Number_of_Guest', numberOfGuests);
 
-        const query = knex('attractions')
-          .select('*')
-          .whereRaw(
-            `ST_Distance_Sphere(ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::float, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::float), ST_MakePoint(?, ?)) <= ?`,
-            [lng, lat, radiusInMeters]
-          )
-          .andWhere('Number_of_Guest', numberOfGuests)
-          .toString();
+        // Filter attractions within the radius using Google Maps Distance Matrix API
+        const filteredAttractions = [];
 
-        console.log('SQL Query:', query);
+        for (const attraction of attractions) {
+          const attractionLat = attraction.Real_Address.coordinates.lat;
+          const attractionLng = attraction.Real_Address.coordinates.lng;
 
-        const attractions = await knex('attractions')
-          .select('*')
-          .whereRaw(
-            `ST_Distance_Sphere(ST_MakePoint((Real_Address::json->>'coordinates'->>'lng')::float, (Real_Address::json->>'coordinates'->>'lat')::float), ST_MakePoint(?, ?)) <= ?`,
-            [lng, lat, radiusInMeters]
-          )
-          .andWhere('Number_of_Guest', numberOfGuests);
+          const distanceResponse = await axios.get(
+            `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat},${lng}&destinations=${attractionLat},${attractionLng}&key=AIzaSyBeSYHJyh5OmxQ_x4O7t_nQjDA7M9h5HmI`
+          );
 
-        console.log('Query Result:', attractions);
+          const distance = distanceResponse.data.rows[0].elements[0].distance.value; // distance in meters
 
-        if (attractions.length > 0) {
-          ctx.body = attractions;
+          if (distance <= radius * 1000) {
+            filteredAttractions.push(attraction);
+          }
+        }
+
+        if (filteredAttractions.length > 0) {
+          ctx.body = filteredAttractions;
         } else {
           ctx.body = { error: 'No attractions found' };
         }
