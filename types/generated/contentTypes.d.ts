@@ -374,9 +374,6 @@ export interface ApiAttractionAttraction extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    Select_Category: Attribute.Enumeration<
-      ['Sightseeing features', 'Tours $ Adventure', 'Food and Drink']
-    >;
     Title: Attribute.String;
     Parmalink: Attribute.String;
     Content: Attribute.RichText;
@@ -426,10 +423,15 @@ export interface ApiAttractionAttraction extends Schema.CollectionType {
     Gallery: Attribute.Media;
     Video_Link: Attribute.String;
     Enable_Cancellation: Attribute.Boolean & Attribute.DefaultTo<false>;
-    Real_Address: Attribute.JSON &
-      Attribute.CustomField<'plugin::google-maps.location-picker'>;
     slug: Attribute.UID<'api::attraction.attraction', 'Title'>;
     Short_Description: Attribute.String;
+    Real_Address: Attribute.JSON &
+      Attribute.CustomField<'plugin::google-maps.location-picker'>;
+    Category: Attribute.Relation<
+      'api::attraction.attraction',
+      'manyToMany',
+      'api::attraction-category.attraction-category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -448,35 +450,35 @@ export interface ApiAttractionAttraction extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryManagementCategoryManagement
+export interface ApiAttractionCategoryAttractionCategory
   extends Schema.CollectionType {
-  collectionName: 'category_managements';
+  collectionName: 'attraction_categories';
   info: {
-    singularName: 'category-management';
-    pluralName: 'category-managements';
-    displayName: 'Category Management';
-    description: '';
+    singularName: 'attraction-category';
+    pluralName: 'attraction-categories';
+    displayName: 'Attraction_Category';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Category_Name: Attribute.String;
-    Category_Type: Attribute.Enumeration<
-      ['Apartment', 'Attraction', 'Hotel', 'Tour']
+    Title: Attribute.String;
+    attractions: Attribute.Relation<
+      'api::attraction-category.attraction-category',
+      'manyToMany',
+      'api::attraction.attraction'
     >;
-    Category_Status: Attribute.Enumeration<['Active', 'Inactive']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::category-management.category-management',
+      'api::attraction-category.attraction-category',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::category-management.category-management',
+      'api::attraction-category.attraction-category',
       'oneToOne',
       'admin::user'
     > &
@@ -720,7 +722,6 @@ export interface PluginGoogleMapsConfig extends Schema.SingleType {
     displayName: 'Google Maps Config';
   };
   options: {
-    populateCreatorFields: false;
     draftAndPublish: false;
   };
   pluginOptions: {
@@ -961,7 +962,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::attraction.attraction': ApiAttractionAttraction;
-      'api::category-management.category-management': ApiCategoryManagementCategoryManagement;
+      'api::attraction-category.attraction-category': ApiAttractionCategoryAttractionCategory;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;

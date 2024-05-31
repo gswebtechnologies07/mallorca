@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attraction_categories",
+  "info": {
+    "singularName": "attraction-category",
+    "pluralName": "attraction-categories",
+    "displayName": "Attraction_Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "attractions": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::attraction.attraction",
+      "mappedBy": "Category"
+    }
+  }
+}

@@ -12,14 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Select_Category": {
-      "type": "enumeration",
-      "enum": [
-        "Sightseeing features",
-        "Tours $ Adventure",
-        "Food and Drink"
-      ]
-    },
     "Title": {
       "type": "string"
     },
@@ -137,16 +129,24 @@
       "type": "boolean",
       "default": false
     },
-    "Real_Address": {
-      "type": "customField",
-      "customField": "plugin::google-maps.location-picker"
-    },
     "slug": {
       "type": "uid",
       "targetField": "Title"
     },
     "Short_Description": {
       "type": "string"
+    },
+    "Real_Address": {
+      "type": "customField",
+      "optionsDefaultLat": "39.710358",
+      "optionsDefaultLng": "2.995148",
+      "customField": "plugin::google-maps.location-picker"
+    },
+    "Category": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::attraction-category.attraction-category",
+      "inversedBy": "attractions"
     }
   }
 }
