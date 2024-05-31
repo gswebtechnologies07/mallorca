@@ -88,7 +88,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
           .whereRaw(
             `ST_DWithin(
               ST_MakePoint(?, ?)::geography,
-              ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng'), JSON_EXTRACT(Real_Address, '$.coordinates.lat'))::geography,
+              ST_MakePoint(Real_Address->'coordinates'->>'lng'::float8, Real_Address->'coordinates'->>'lat'::float8)::geography,
               ?
             )`,
             [lng, lat, radiusInMeters]
@@ -103,7 +103,8 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
     } catch (error) {
       console.error('Error:', error);
       ctx.status = 500;
-      ctx.body = { error: error };
+      ctx.body = { error: 'Server error' };
     }
   }
 }));
+
