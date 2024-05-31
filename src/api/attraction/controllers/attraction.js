@@ -95,8 +95,8 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
           .whereRaw(
             `ST_Distance_Sphere(
               ST_MakePoint(
-                Real_Address->>'coordinates'->>'lng'::float8,
-                Real_Address->>'coordinates'->>'lat'::float8
+                (Real_Address->>'coordinates'->>'lng')::float8,
+                (Real_Address->>'coordinates'->>'lat')::float8
               ),
               ST_MakePoint(?, ?)
             ) <= ?`,
