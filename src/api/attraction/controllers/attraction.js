@@ -90,7 +90,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         const radiusInMeters = radius * 1000;
         const knex = strapi.db.connection;
 
-        const query = knex('attraction_attractions')
+        const query = knex('attractions')
           .select('*')
           .whereRaw(
             `ST_Distance_Sphere(ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::float, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::float), ST_MakePoint(?, ?)) <= ?`,
