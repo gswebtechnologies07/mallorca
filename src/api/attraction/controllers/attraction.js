@@ -51,17 +51,22 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         //     [lng, lat, radiusInMeters]
         //   )
         //   .andWhere('Number_of_Guest', numberOfGuests);
-        const attractions = await knex('attractions')
-        .select('*')
-        .whereRaw(
-          `ST_DistanceSphere(ST_MakePoint(CAST(JSON_EXTRACT(Real_Address, '$.coordinates.lng') AS NUMERIC), CAST(JSON_EXTRACT(Real_Address, '$.coordinates.lat') AS NUMERIC)), ST_MakePoint(?, ?)) <= ?`,
-          [lng, lat, radiusInMeters]
-        )
-        .andWhere('Number_of_Guest', numberOfGuests);
-        ctx.body = attractions;
-      } else {
-        ctx.body = { error: 'Invalid location' };
-      }
+
+          const attractions = await knex('attractions')
+          .select('*')
+          .whereRaw(
+              `ST_DWithin(
+              ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::double precision, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::double precision),
+              ST_MakePoint(?, ?),
+              ? * 0.000621371192
+            )`,
+            [lng, lat, radiusInMeters]
+          )
+          .orWhere('Number_of_Guest', numberOfGuests);
+          ctx.body = attractions;
+        } else {
+          ctx.body = { error: 'Invalid location' };
+        }
     } catch (error) {
       console.error('Error:', error);
       ctx.body = { error: error };
