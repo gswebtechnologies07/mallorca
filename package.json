@@ -22,7 +22,6 @@
     "react-router-dom": "5.3.4",
     "strapi-location-field-plugin": "^1.2.3",
     "strapi-plugin-multi-select": "^1.2.3",
-    "strapi-utils": "^3.6.11",
     "styled-components": "5.3.3"
   },
   "author": {
