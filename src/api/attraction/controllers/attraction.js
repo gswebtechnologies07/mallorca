@@ -52,14 +52,12 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         //   )
         //   .andWhere('Number_of_Guest', numberOfGuests);
         const attractions = await knex('attractions')
-            .select('*')
-            .whereRaw(
-              `ST_DistanceSphere(ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::float, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::float), ST_MakePoint(?, ?)) <= ?`,
-              [lng, lat, radiusInMeters]
-            )
-            .andWhere('Number_of_Guest', numberOfGuests);
-
-
+        .select('*')
+        .whereRaw(
+          `ST_DistanceSphere(ST_MakePoint(CAST(JSON_EXTRACT(Real_Address, '$.coordinates.lng') AS NUMERIC), CAST(JSON_EXTRACT(Real_Address, '$.coordinates.lat') AS NUMERIC)), ST_MakePoint(?, ?)) <= ?`,
+          [lng, lat, radiusInMeters]
+        )
+        .andWhere('Number_of_Guest', numberOfGuests);
         ctx.body = attractions;
       } else {
         ctx.body = { error: 'Invalid location' };
