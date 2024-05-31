@@ -44,13 +44,21 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         const radiusInMeters = radius * 1000;
         const knex = strapi.db.connection;
 
+        // const attractions = await knex('attractions')
+        //   .select('*')
+        //   .whereRaw(
+        //     `ST_Distance_Sphere(point(JSON_EXTRACT(Real_Address, '$.coordinates.lng'), JSON_EXTRACT(Real_Address, '$.coordinates.lat')), point(?, ?)) <= ?`,
+        //     [lng, lat, radiusInMeters]
+        //   )
+        //   .andWhere('Number_of_Guest', numberOfGuests);
         const attractions = await knex('attractions')
-          .select('*')
-          .whereRaw(
-            `ST_Distance_Sphere(point(JSON_EXTRACT(Real_Address, '$.coordinates.lng'), JSON_EXTRACT(Real_Address, '$.coordinates.lat')), point(?, ?)) <= ?`,
-            [lng, lat, radiusInMeters]
-          )
-          .andWhere('Number_of_Guest', numberOfGuests);
+            .select('*')
+            .whereRaw(
+              `ST_DistanceSphere(ST_MakePoint(JSON_EXTRACT(Real_Address, '$.coordinates.lng')::float, JSON_EXTRACT(Real_Address, '$.coordinates.lat')::float), ST_MakePoint(?, ?)) <= ?`,
+              [lng, lat, radiusInMeters]
+            )
+            .andWhere('Number_of_Guest', numberOfGuests);
+
 
         ctx.body = attractions;
       } else {
