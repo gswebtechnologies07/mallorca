@@ -89,11 +89,17 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         const radiusInMeters = radius * 1000;
         const knex = strapi.db.connection;
 
-        // Ensure the correct table name is used
+        // Ensure the correct table name is used and extract coordinates from JSON field
         const attractions = await knex('attractions')
           .select('*')
           .whereRaw(
-            `ST_Distance_Sphere(ST_MakePoint((Real_Address::json->>'coordinates'->>'lng')::float, (Real_Address::json->>'coordinates'->>'lat')::float), ST_MakePoint(?, ?)) <= ?`,
+            `ST_Distance_Sphere(
+              ST_MakePoint(
+                Real_Address->>'coordinates'->>'lng'::float8,
+                Real_Address->>'coordinates'->>'lat'::float8
+              ),
+              ST_MakePoint(?, ?)
+            ) <= ?`,
             [lng, lat, radiusInMeters]
           )
           .andWhere('Number_of_Guest', numberOfGuests);
@@ -109,7 +115,7 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
     } catch (error) {
       console.error('Error:', error);
       ctx.status = 500; // Internal Server Error
-      ctx.body = { error: error };
+      ctx.body = { error: error.message || 'Internal Server Error' };
     }
   }
 }));
