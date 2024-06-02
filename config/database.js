@@ -22,6 +22,7 @@ module.exports = ({ env }) => {
             'DATABASE_SSL_REJECT_UNAUTHORIZED',
             true
           ),
+          acquireConnectionTimeout: 60000,
         },
       },
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
@@ -44,6 +45,7 @@ module.exports = ({ env }) => {
             true
           ),
         },
+        acquireConnectionTimeout: 60000,
       },
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
     },
