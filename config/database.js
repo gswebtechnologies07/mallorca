@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = ({ env }) => {
-  const client = env('DATABASE_CLIENT', 'sqlite');
+  const client = env('DATABASE_CLIENT', 'mysql');
 
   const connections = {
     mysql: {
@@ -22,7 +22,7 @@ module.exports = ({ env }) => {
             'DATABASE_SSL_REJECT_UNAUTHORIZED',
             true
           ),
-          acquireConnectionTimeout: 60000,
+          acquireConnectionTimeout: 120000,
         },
       },
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
@@ -45,7 +45,7 @@ module.exports = ({ env }) => {
             true
           ),
         },
-        acquireConnectionTimeout: 60000,
+        acquireConnectionTimeout: 120000,
       },
       pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
     },
