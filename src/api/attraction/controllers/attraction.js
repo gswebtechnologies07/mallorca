@@ -47,7 +47,14 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
         const attractions = await knex('attractions')
           .select('*')
           .whereRaw(
-            `ST_Distance_Sphere(point(JSON_EXTRACT(Real_Address, '$.coordinates.lng'), JSON_EXTRACT(Real_Address, '$.coordinates.lat')), point(?, ?)) <= ?`,
+            `ST_DWithin(
+              geography(ST_MakePoint(
+                (Real_Address->>'coordinates'->>'lng')::float, 
+                (Real_Address->>'coordinates'->>'lat')::float
+              )),
+              geography(ST_MakePoint(?, ?)),
+              ?
+            )`,
             [lng, lat, radiusInMeters]
           )
           .andWhere('Number_of_Guest', numberOfGuests);
@@ -62,5 +69,4 @@ module.exports = createCoreController('api::attraction.attraction', ({ strapi })
     }
   }
 }));
-
 
